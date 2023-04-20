@@ -18,14 +18,14 @@ replacements = {
 hit_type = hits['event'].replace(replacements, regex=True)
 
 hits = hits.assign(hit_type=hit_type)
-print(hits)
-#hits = hits.groupby('inning', 'hit_type').size().reset_index(name='count')
 
-#hits['hit_type'] = pd.Categorical(hits['hit_type'], ['single', 'double', 'triple', 'hr'])
+hits = hits.groupby(['inning', 'hit_type']).size().reset_index(name='count')
 
-#hits  = hits.sort_values(['inning', 'hit_type'])
+hits['hit_type'] = pd.Categorical(hits['hit_type'], ['single', 'double', 'triple', 'hr'])
 
-#hits = hits.pivot(index='inning', columns='hit_type', values='count')
+hits  = hits.sort_values(['inning', 'hit_type'])
 
-#hits.plot.bar(stacked=True)
-#plt.show()
+hits = hits.pivot(index='inning', columns='hit_type', values='count')
+
+hits.plot.bar(stacked=True)
+plt.show()
